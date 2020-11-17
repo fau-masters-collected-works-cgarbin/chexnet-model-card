@@ -1,0 +1,164 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+% Used in the explanation text
+\usepackage[colorlinks]{hyperref}
+
+% Used by the template
+\usepackage{setspace}
+\usepackage{changepage} % to adjust margins
+\usepackage[breakable]{tcolorbox}
+\usepackage{float} % for tables inside tcolorbox https://tex.stackexchange.com/a/274342
+
+% Added for the CheXNet model card
+\usepackage{dirtytalk}
+\usepackage{graphicx}
+% For tables
+\usepackage{longtable}
+\usepackage{enumitem}
+
+\title{CheXNet Model Card}
+\author{Christian Garbin}
+\date{November 2020}
+
+\begin{document}
+
+\maketitle
+
+\section{CheXNet}
+
+This paper converts the description of the CheXNet model from the prose of its original paper into the structured format of a model card \cite{Mitchell2018}.
+
+In late 2017, a team from Stanford announced CheXNet, \say{radiologist-level pneumonia detection on chest x-rays with deep learning} \cite{Rajpurkar2017}. It was developed based on the ChestX-ray8 dataset \cite{Wang2017}, with an important enhancement: a team of four radiologists labeled the test set (as opposed to relying on the NLP-extracted labels from ChestX-ray8).
+
+Information for the model card was compiled from:
+
+\begin{itemize}
+    \item \href{https://arxiv.org/abs/1711.05225}{The latest (third) version of the paper} \cite{Rajpurkar2017}.
+    \item \href{https://lukeoakdenrayner.wordpress.com/2018/01/24/chexnet-an-in-depth-review/}{CheXNet: an in-depth review} \cite{OakdenRayner2018a}.
+\end{itemize}
+
+The model card is written from the first-person point of view, as if the authors had created it, to make it more realistic. Whenever applicable, the source for the information used in the model card is cited.
+
+\pagebreak
+
+\section{Model card}
+
+% Each section is supposed to be brief, in the form of a bullet list.
+% This environment formats the lists in each model card section in a compact format to help
+% the card fit into the recommended "one to two pages".
+\newenvironment{mcsection}[1]
+    {%
+        \textbf{#1}
+
+        % Reduce margins to use the space more effectively and help fit in the recommended "one to two pages"
+        % Use the bullet list format as shown in the model card paper to increase readability
+        \begin{itemize}[leftmargin=*,topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex,after=\vspace{\medskipamount}]
+    }
+    {%
+        \end{itemize}
+    }
+
+% Optional: reduce margins single line to fit in "one to two pages", as recommended
+\begin{adjustwidth}{-60pt}{-30pt}
+\begin{singlespace}
+
+\tcbset{colback=white!10!white}
+\begin{tcolorbox}[title=\textbf{Model Card - CheXNet},
+    breakable, sharp corners, boxrule=0.7pt]
+
+% Change to a smaller, but still legible font size to help fit in the recommended "one to two pages"
+\small{
+
+\begin{mcsection}{Model Details}
+    \item Developed by researchers at Stanford University Department of Computer Science, Department of Medicine, and Department of Radiology.
+    \item The latest version of the model was released in December 2017.
+    \item Dense Convolutional Neural Net (DenseNet) with 121 layers, initialized \say{with weights from a model pretrained on ImageNet} \cite{Rajpurkar2017}.
+    \item See the description of the work in \href{https://arxiv.org/abs/1711.05225}{arXiv}.
+\end{mcsection}
+
+\begin{mcsection}{Intended Use}
+    \item Determine the \say{probability of pneumonia along with a heatmap localizing the areas of the image most indicative of} \cite{Rajpurkar2017} \say{pneumonia-like features} \cite{OakdenRayner2018a} in frontal chest X-ray images.
+    \item Not intended to be used with lateral chest x-rays.
+    \item It is intended to assist health care professionals, not to perform the final diagnosis.
+\end{mcsection}
+
+\begin{mcsection}{Factors}
+    \item Male and females instances are balanced in the training and test sets.
+    \item The average patient age is 46.9 years, with a standard deviation of 16.6 years. There are few images of infants, toddlers, and preschoolers in the training and test sets. It is not known if the model performs well for those age groups.
+    \item Training and test images are from one institution. It is known that \say{performance on chest X-rays from outside hospitals [may be] lower than on held-out X-rays from the original hospital system.} \cite{Zech2018} \cite{Pooch2019} \cite{Yao2019}. Further evaluations with images from other institutions is an open investigation item.
+\end{mcsection}
+
+\begin{mcsection}{Metrics}
+    \item The metrics include the F1 score of the model and four radiologists (the same radiologists who labeled the test set). The threshold for the decision is 0.5 \cite{OakdenRayner2018a}.
+    \item The metrics also include the 95\% confidence interval (2.5\textsuperscript{th} and 97.5\textsuperscript{th} percentiles of the F1 scores), computed with bootstrap (10,000 samples, with replacement).
+    \item \say{We find that the difference in F1 scores --- 0.051 (95\% CI 0.005, 0.084) --- does not contain 0, and therefore conclude that the performance of CheXNet is statistically significantly higher than radiologist performance.} \cite{Rajpurkar2017}
+\end{mcsection}
+
+\begin{mcsection}{Training Data}
+    \item ChestX-ray14 (frontal X-ray images), with images that have pneumonia are labeled \say{positive} examples and all other images are labeled as \say{negative} examples.
+    \item The ChestX-ray14 images were downscaled to 224 $\times$ 224 pixels and normalized based on the mean and standard deviation of the ImageNet dataset.
+    \item Out of the 112,120 images and 30,805 patients in ChestX-ray14, we selected 98,637 images and 28,744 patients for the training set and 6,351 images of 1,672 patients for the validation set.
+    \item Augmentation with random horizontal flipping.
+\end{mcsection}
+
+\begin{mcsection}{Evaluation Data}
+    \item Test set with 420 images of 389 patients. The images were not randomly selected from the full set. They were \say{sampled to contain at least 50 cases of each of the original [14] pathology labels.} \cite{Rajpurkar2018} \footnote{This was unclear in the CheXNet paper. It was clarified in \cite{OakdenRayner2018a}. The quote is from a follow-up paper, CheXNeXt \cite{Rajpurkar2018}.}
+    \item The test set was annotated independently by \say{four practicing radiologists at Stanford University, who were asked to label all 14 pathologies in [ChestX-ray14].} \cite{Rajpurkar2017}
+    \item There is no overlap of patients between the training, validation, and test sets.
+%\footnote{The number of images from the training, validation, and test sets adds up to 105,408, which does not match the 112,120 images in the ChestX-ray14 dataset. The paper does not explain the reason for the difference.}
+\end{mcsection}
+
+\begin{mcsection}{Ethical Considerations}
+    \item No personally identifiable information was used to train and test the model.
+    \item The output of the model must not be used to make automated healthcare decisions. The model is intended to provide information to assist healthcare professionals.
+\end{mcsection}
+
+\begin{mcsection}{Caveats and Recommendations}
+    \item The images in the ChestX-ray14 dataset are downscaled from the original DICOM images to 1024 $\times$ 1024 pixels and 256-level gray scale. The DICOM images  have 2-3$\times$ as many pixels, and 3,000 gray levels \cite{Wang2017} \cite{OakdenRayner2018a}.
+    \item The images are downsized again when training the model to 224 $\times$ 224 pixels.
+    \item The radiologists annotating the test data used the downscaled ChestX-ray14 images, not the original DICOM images.
+    \item The radiologists did not have access to the patient records. Not knowing the patient history \say{decrease[s] radiologist diagnostic performance in interpreting chest radiographs} \cite{Rajpurkar2017}.
+    \item \say{Detecting pneumonia in chest radiography can be difficult for radiologists. The appearance of pneumonia in X-ray images is often vague, can overlap with other diagnoses, and can mimic many other benign abnormalities. These discrepancies cause considerable variability among radiologists in the diagnosis of pneumonia}. \cite{Rajpurkar2017}
+\end{mcsection}
+
+\textbf{Quantitative Analyses}
+
+\definecolor{cicolor}{HTML}{626567}
+\begin{table}[H]
+\centering
+\small{
+\begin{tabular}{lrrr}
+& \multicolumn{1}{l}{F1 Score} & \multicolumn{2}{c}{\textcolor{cicolor}{95\% CI}} \\ \hline
+Radiologist 1       & 0.383  & \textcolor{cicolor}{0.309}   & \textcolor{cicolor}{ 0.453}  \\
+Radiologist 2       & 0.356  & \textcolor{cicolor}{0.282}   & \textcolor{cicolor}{0.428}  \\
+Radiologist 3       & 0.365  & \textcolor{cicolor}{0.291}   & \textcolor{cicolor}{0.435}  \\
+Radiologist 4       & 0.442  & \textcolor{cicolor}{0.390}   & \textcolor{cicolor}{0.492}  \\
+Radiologist average & 0.387  & \textcolor{cicolor}{0.330}   & \textcolor{cicolor}{0.442}  \\ \hline
+\textbf{CheXNet}    & \textbf{0.435} & \textcolor{cicolor}{\textbf{0.387}} & \textcolor{cicolor}{\textbf{0.481}} \\ \hline
+\end{tabular} } \\
+\caption[CheXNet F1 score compared to radiologists F1 scores.]{\small{``We compare radiologists and our model on the F1 metric\ldots CheXNet achieves an F1 score of 0.435 \ldots, higher than the radiologist average of 0.387 \ldots. We use the bootstrap to find that the difference in performance is statistically significant.'' \cite{Rajpurkar2017}}}
+\end{table}
+
+% \centering
+% \includegraphics[width=0.3\linewidth]{./figures/model-card-stats-sample-DELETE-ME.png}
+% \label{fig:model-card-quantitative-analysis}
+
+} % end font size change
+\end{tcolorbox}
+\end{singlespace}
+\end{adjustwidth}
+
+\section{Appendix}
+
+\subsection{Model cards}
+
+\href{https://arxiv.org/abs/1810.03993}{Model cards} are ``short documents accompanying trained machine learning models that provide benchmarked evaluation in a variety of conditions, such as across different cultural, demographic, or phenotypic groups \ldots and intersectional groups \ldots that are relevant to the intended application domains. Model cards also disclose the context in which models are intended to be used, details of the performance evaluation procedures, and other relevant information.''
+
+Model cards were motivated by systematic bias in commercial applications that were discovered only after the models were released. To counter that, the authors ``advocate for measures of model performance that contain quantitative evaluation results to be broken down by individual cultural, demographic, or phenotypic groups, domain-relevant conditions, and intersectional analysis combining two (or more) groups and conditions.'' The emphasis on ethic aspects of the measurements is a distinguishing feature of model cards, compared to other proposals to document models.
+
+
+\bibliographystyle{abbrv}
+\bibliography{chexnet-model-card}
+
+\end{document}

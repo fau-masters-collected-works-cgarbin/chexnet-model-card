@@ -8,4 +8,12 @@ See [the PDF generated from the LaTeX files here](./chexnet-model-card.pdf).
 
 Model cards were motivated by systematic bias in commercial applications that were discovered only after the models were released. To counter that, the authors "advocate for measures of model performance that contain quantitative evaluation results to be broken down by individual cultural, demographic, or phenotypic groups, domain-relevant conditions, and intersectional analysis combining two (or more) groups and conditions." The emphasis on ethic aspects of the measurements is a distinguishing feature of model cards, compared to other proposals to document models.
 
+On the left side we see the prose format of the paper. On the right side we see the structured format of the model card.
+
+![Prose vs. model card](./pics/chexnet-prose-structured.png)
+
+The "Caveats and Recommendations" section of the model card.
+
+![A section of the model card](./pics/chexnet-model-card-detail.png)
+
 Based on the [model card template in Overleaf](https://www.overleaf.com/latex/templates/model-card-template/fjmvzbbbxmwx).

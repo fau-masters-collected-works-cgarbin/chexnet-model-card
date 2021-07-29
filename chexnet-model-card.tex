@@ -2,7 +2,12 @@
 \usepackage[utf8]{inputenc}
 
 % Used in the explanation text
-\usepackage[colorlinks]{hyperref}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks = true,
+    citecolor = {blue},
+    urlcolor = {blue},
+}
 
 % Used by the template
 \usepackage{setspace}
@@ -25,7 +30,7 @@
 
 \maketitle
 
-\section{CheXNet}
+\section{Introduction}
 
 This paper converts the description of the CheXNet model from the prose of its original paper into the structured format of a model card \cite{Mitchell2018}.
 
@@ -74,7 +79,7 @@ The model card is written from the first-person point of view, as if the authors
     \item Developed by researchers at Stanford University Department of Computer Science, Department of Medicine, and Department of Radiology.
     \item The latest version of the model was released in December 2017.
     \item Dense Convolutional Neural Net (DenseNet) with 121 layers, initialized \say{with weights from a model pretrained on ImageNet} \cite{Rajpurkar2017}.
-    \item See the description of the work in \href{https://arxiv.org/abs/1711.05225}{arXiv}.
+    \item See the description of the work on \href{https://arxiv.org/abs/1711.05225}{arXiv}.
 \end{mcsection}
 
 \begin{mcsection}{Intended Use}
@@ -102,8 +107,10 @@ The model card is written from the first-person point of view, as if the authors
     \item Augmentation with random horizontal flipping.
 \end{mcsection}
 
+\pagebreak
+
 \begin{mcsection}{Evaluation Data}
-    \item Test set with 420 images of 389 patients. The images were not randomly selected from the full set. They were \say{sampled to contain at least 50 cases of each of the original [14] pathology labels.} \cite{Rajpurkar2018} \footnote{This was unclear in the CheXNet paper. It was clarified in \cite{OakdenRayner2018a}. The quote is from a follow-up paper, CheXNeXt \cite{Rajpurkar2018}.}
+    \item Test set with 420 images of 389 patients. The images were not randomly selected from the full set. They were \say{sampled to contain at least 50 cases of each of the original [14] pathology labels.} \cite{Rajpurkar2018}  \cite{OakdenRayner2018a}
     \item The test set was annotated independently by \say{four practicing radiologists at Stanford University, who were asked to label all 14 pathologies in [ChestX-ray14].} \cite{Rajpurkar2017}
     \item There is no overlap of patients between the training, validation, and test sets.
 %\footnote{The number of images from the training, validation, and test sets adds up to 105,408, which does not match the 112,120 images in the ChestX-ray14 dataset. The paper does not explain the reason for the difference.}
@@ -116,10 +123,10 @@ The model card is written from the first-person point of view, as if the authors
 
 \begin{mcsection}{Caveats and Recommendations}
     \item The images in the ChestX-ray14 dataset are downscaled from the original DICOM images to 1024 $\times$ 1024 pixels and 256-level gray scale. The DICOM images  have 2-3$\times$ as many pixels, and 3,000 gray levels \cite{Wang2017} \cite{OakdenRayner2018a}.
-    \item The images are downsized again when training the model to 224 $\times$ 224 pixels.
-    \item The radiologists annotating the test data used the downscaled ChestX-ray14 images, not the original DICOM images.
+    \item The images are downsized again when training the model to 224 $\times$ 224 pixels  \cite{Rajpurkar2017}.
+    \item The radiologists annotating the test data used the downscaled ChestX-ray14 images, not the original DICOM images  \cite{Rajpurkar2017}.
     \item The radiologists did not have access to the patient records. Not knowing the patient history \say{decrease[s] radiologist diagnostic performance in interpreting chest radiographs} \cite{Rajpurkar2017}.
-    \item \say{Detecting pneumonia in chest radiography can be difficult for radiologists. The appearance of pneumonia in X-ray images is often vague, can overlap with other diagnoses, and can mimic many other benign abnormalities. These discrepancies cause considerable variability among radiologists in the diagnosis of pneumonia}. \cite{Rajpurkar2017}
+    \item \say{Detecting pneumonia in chest radiography can be difficult for radiologists. The appearance of pneumonia in X-ray images is often vague, can overlap with other diagnoses, and can mimic many other benign abnormalities. These discrepancies cause considerable variability among radiologists in the diagnosis of pneumonia} \cite{Rajpurkar2017}. 
 \end{mcsection}
 
 \textbf{Quantitative Analyses}
@@ -148,6 +155,8 @@ Radiologist average & 0.387  & \textcolor{cicolor}{0.330}   & \textcolor{cicolor
 \end{tcolorbox}
 \end{singlespace}
 \end{adjustwidth}
+
+\pagebreak
 
 \section{Appendix}
 

@@ -21,3 +21,5 @@ The "Caveats and Recommendations" section of the model card.
 ![A section of the model card](./pics/chexnet-model-card-detail.png)
 
 Based on the [model card template in Overleaf](https://www.overleaf.com/latex/templates/model-card-template/fjmvzbbbxmwx).
+
+A text version of the model card template is available [here](https://github.com/fau-masters-collected-works-cgarbin/model-card-template).

@@ -23,3 +23,7 @@ The "Caveats and Recommendations" section of the model card.
 ## Templates
 
 This model card was created with the [Overleaf template](https://www.overleaf.com/latex/templates/model-card-template/fjmvzbbbxmwx). There is also a [Markdown template for model cards](https://github.com/fau-masters-collected-works-cgarbin/model-card-template).
+
+## Datasheets for datasets
+
+If you are interested in model cards, you may also want to review [datasheets for datasets](https://github.com/fau-masters-collected-works-cgarbin/datasheet-for-dataset-template).

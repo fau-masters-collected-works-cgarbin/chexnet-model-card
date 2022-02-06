@@ -4,7 +4,7 @@ A [model card](https://arxiv.org/abs/1810.03993) for the [CheXNet model](https:/
 
 See [the PDF generated from the LaTeX files here](./chexnet-model-card.pdf).
 
-The model card is written from the first-person point of view, as if the authors had created it, to make it more realistic.
+I researched publicly-available information to create this model card (ideally, the team working on the model should create the model card as they develop it). Given the lack of access to first-hand information, consider this an illustration of what a model card should be, but not necessarily accurate information about this particular model.
 
 [Model cards](https://arxiv.org/abs/1810.03993) are "short documents accompanying trained machine learning models that provide benchmarked evaluation in a variety of conditions, such as across different cultural, demographic, or phenotypic groups \ldots and intersectional groups \ldots that are relevant to the intended application domains. Model cards also disclose the context in which models are intended to be used, details of the performance evaluation procedures, and other relevant information."
 

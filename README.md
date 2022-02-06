@@ -18,7 +18,7 @@ The "Caveats and Recommendations" section of the model card.
 
 ![A section of the model card](./pics/chexnet-model-card-detail.png)
 
-## How this model card was crated
+## How this model card was created
 
 I researched publicly-available information to create this model card. Ideally, the team working on the model should create the model card as they develop it. 
 
